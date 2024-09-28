@@ -12,6 +12,7 @@ export const MobileFiltered = () => {
         <h4 className="mb-5">
           <span className="text-lg font-semibold">By price</span>
         </h4>
+        {/*@ts-ignore*/}
         <ReactSlider
           className="slider horizontal-slider w-full h-[5px] bg-[#222]"
           onChange={setValues}

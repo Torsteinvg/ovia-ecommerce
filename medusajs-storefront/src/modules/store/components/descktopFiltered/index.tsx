@@ -11,6 +11,7 @@ export const DesktopFiltered = () => {
         <div className="text-[#222] text-2xl pb-5 font-medium">
           <span>By price</span>
         </div>
+        {/*@ts-ignore*/}
         <ReactSlider
           className="slider horizontal-slider w-full h-[5px] bg-[#222]"
           onChange={setValues}
