@@ -9,13 +9,32 @@ import { Fragment } from "react"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import CountrySelect from "../country-select"
 
-const SideMenuItems = {
-  Home: "/",
-  Store: "/store",
-  Search: "/search",
-  Account: "/account",
-  Cart: "/cart",
-}
+// const SideMenuItems = {
+//   Home: "/",
+//   OnlineSore: "/store",
+//   About: "/about",
+//   Contact: "/contact",
+// }
+
+const Menu = [
+  {
+    label : "Home",
+    link: "/"
+  },
+  {
+    label : "Online Store",
+    link: "/store"
+  },
+  {
+    label : "About",
+    link: "/about"
+  },
+  {
+    label : "Contact",
+    link: "/contact"
+  },
+
+]
 
 const SideMenu = ({ regions }: { regions: Region[] | null }) => {
   const toggleState = useToggleState()
@@ -27,8 +46,8 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
           {({ open, close }) => (
             <>
               <div className="relative flex h-full">
-                <Popover.Button className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base">
-                  Menu
+                <Popover.Button data-testid="nav-menu-button" className="relative h-full flex items-center transition-all ease-out duration-200 focus:outline-none hover:text-ui-fg-base">
+                <svg stroke="#db572e" fill="#db572e" stroke-width="0" viewBox="0 0 24 24" aria-hidden="true" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75H12a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd"></path></svg>
                 </Popover.Button>
               </div>
 
@@ -43,26 +62,40 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
                 leaveTo="opacity-0"
               >
                 <Popover.Panel className="flex flex-col absolute w-full pr-4 sm:pr-0 sm:w-1/3 2xl:w-1/4 sm:min-w-min h-[calc(100vh-1rem)] z-30 inset-x-0 text-sm text-ui-fg-on-color m-2 backdrop-blur-2xl">
-                  <div className="flex flex-col h-full bg-[rgba(3,7,18,0.5)] rounded-rounded justify-between p-6">
+                  <div data-testid="nav-menu-popup" className="flex flex-col h-full bg-[rgba(3,7,18,0.5)] rounded-rounded justify-between p-6">
                     <div className="flex justify-end" id="xmark">
-                      <button onClick={close}>
+                      <button data-testid="close-menu-button" onClick={close}>
                         <XMark />
                       </button>
                     </div>
                     <ul className="flex flex-col gap-6 items-start justify-start">
-                      {Object.entries(SideMenuItems).map(([name, href]) => {
+                      {
+                        Menu.map((item, idx) => (
+                          <li key={idx}>
+                            <LocalizedClientLink
+                              href={item.link}
+                              className="text-3xl leading-10 hover:text-ui-fg-disabled"
+                              onClick={close}
+                            >
+                              {item.label}
+                            </LocalizedClientLink>
+                          </li>
+                        ))
+                      }
+                      {/* {Object.entries(SideMenuItems).map(([name, href]) => {
                         return (
                           <li key={name}>
                             <LocalizedClientLink
                               href={href}
                               className="text-3xl leading-10 hover:text-ui-fg-disabled"
                               onClick={close}
+                              data-testid={`${name.toLowerCase()}-link`}
                             >
                               {name}
                             </LocalizedClientLink>
                           </li>
                         )
-                      })}
+                      })} */}
                     </ul>
                     <div className="flex flex-col gap-y-6">
                       <div
@@ -84,7 +117,7 @@ const SideMenu = ({ regions }: { regions: Region[] | null }) => {
                         />
                       </div>
                       <Text className="flex justify-between txt-compact-small">
-                        © {new Date().getFullYear()} Medusa Store. All rights
+                        © {new Date().getFullYear()} Ovia. All rights
                         reserved.
                       </Text>
                     </div>

@@ -79,9 +79,22 @@ const CartDropdown = ({
       <Popover className="relative h-full">
         <Popover.Button className="h-full">
           <LocalizedClientLink
-            className="hover:text-ui-fg-base"
-            href="/cart"
-          >{`Cart (${totalItems})`}</LocalizedClientLink>
+                  className="flex items-center"
+                  href="/cart"
+                  data-testid="nav-cart-link"
+                >
+                  <span className="relative inline-block hover:text-[#db572e]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" className="fill-current">
+                      <path d="M17.884 6.113A.395.395 0 0 0 17.551 6h-4.775V3.849C12.776 1.723 11.086 0 9 0 6.915 0 5.224 1.723 5.224 3.849V6H.45c-.133 0-.266 0-.333.113a.39.39 0 0 0-.111.34l1.666 9.283C1.903 17.03 3 17.978 4.29 18h9.418c1.295-.032 2.389-.988 2.62-2.287l1.666-9.26a.39.39 0 0 0-.11-.34ZM6.113 3.85C6.113 2.223 7.405.906 9 .906s2.887 1.317 2.887 2.943V6H6.113V3.849ZM15.44 15.6a1.787 1.787 0 0 1-1.732 1.494H4.29A1.787 1.787 0 0 1 2.56 15.6L.982 6.906h16.036L15.44 15.6Z" fill="currentColor"></path>
+                      <path d="M12.332 11.32a.448.448 0 0 0 .444-.452V9.509a.449.449 0 0 0-.444-.452.449.449 0 0 0-.445.452v1.359c0 .25.2.453.445.453ZM5.668 11.32a.449.449 0 0 0 .445-.452V9.509a.449.449 0 0 0-.445-.452.449.449 0 0 0-.444.452v1.359c0 .25.2.453.444.453Z" fill="currentColor"></path>
+                    </svg>
+                  </span>
+                  <span className="ml-2 inline-block absolute bottom-[86%] left-[10%]">
+                    <span className=" bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs">
+                      {totalItems}
+                    </span>
+                  </span>
+                </LocalizedClientLink>
         </Popover.Button>
         <Transition
           show={cartDropdownOpen}
@@ -96,6 +109,7 @@ const CartDropdown = ({
           <Popover.Panel
             static
             className="hidden small:block absolute top-[calc(100%+1px)] right-0 bg-white border-x border-b border-gray-200 w-[420px] text-ui-fg-base"
+            data-testid="nav-cart-dropdown"
           >
             <div className="p-4 flex items-center justify-center">
               <h3 className="text-large-semi">Cart</h3>
@@ -111,6 +125,7 @@ const CartDropdown = ({
                       <div
                         className="grid grid-cols-[122px_1fr] gap-x-4"
                         key={item.id}
+                        data-testid="cart-item"
                       >
                         <LocalizedClientLink
                           href={`/products/${item.variant.product.handle}`}
@@ -125,12 +140,22 @@ const CartDropdown = ({
                                 <h3 className="text-base-regular overflow-hidden text-ellipsis">
                                   <LocalizedClientLink
                                     href={`/products/${item.variant.product.handle}`}
+                                    data-testid="product-link"
                                   >
                                     {item.title}
                                   </LocalizedClientLink>
                                 </h3>
-                                <LineItemOptions variant={item.variant} />
-                                <span>Quantity: {item.quantity}</span>
+                                <LineItemOptions
+                                  variant={item.variant}
+                                  data-testid="cart-item-variant"
+                                  data-value={item.variant}
+                                />
+                                <span
+                                  data-testid="cart-item-quantity"
+                                  data-value={item.quantity}
+                                >
+                                  Quantity: {item.quantity}
+                                </span>
                               </div>
                               <div className="flex justify-end">
                                 <LineItemPrice
@@ -141,7 +166,11 @@ const CartDropdown = ({
                               </div>
                             </div>
                           </div>
-                          <DeleteButton id={item.id} className="mt-1">
+                          <DeleteButton
+                            id={item.id}
+                            className="mt-1"
+                            data-testid="cart-item-remove-button"
+                          >
                             Remove
                           </DeleteButton>
                         </div>
@@ -154,7 +183,11 @@ const CartDropdown = ({
                       Subtotal{" "}
                       <span className="font-normal">(excl. taxes)</span>
                     </span>
-                    <span className="text-large-semi">
+                    <span
+                      className="text-large-semi"
+                      data-testid="cart-subtotal"
+                      data-value={cartState.subtotal || 0}
+                    >
                       {formatAmount({
                         amount: cartState.subtotal || 0,
                         region: cartState.region,
@@ -163,7 +196,11 @@ const CartDropdown = ({
                     </span>
                   </div>
                   <LocalizedClientLink href="/cart" passHref>
-                    <Button className="w-full" size="large">
+                    <Button
+                      className="w-full"
+                      size="large"
+                      data-testid="go-to-cart-button"
+                    >
                       Go to cart
                     </Button>
                   </LocalizedClientLink>

@@ -58,6 +58,8 @@ module.exports = {
         "3xl": "2rem",
       },
       fontFamily: {
+        cloveris: ["var(--Cloveris)"]
+        ,
         sans: [
           "Inter",
           "-apple-system",
