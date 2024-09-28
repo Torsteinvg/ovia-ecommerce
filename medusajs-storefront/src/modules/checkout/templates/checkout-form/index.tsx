@@ -1,15 +1,15 @@
-import Addresses from "@modules/checkout/components/addresses"
-import Shipping from "@modules/checkout/components/shipping"
-import Payment from "@modules/checkout/components/payment"
-import Review from "@modules/checkout/components/review"
 import {
   createPaymentSessions,
   getCustomer,
-  listShippingMethods,
+  // listCartShippingMethods,
 } from "@lib/data"
+import { getCheckoutStep } from "@lib/util/get-checkout-step"
+import Addresses from "@modules/checkout/components/addresses"
+import Payment from "@modules/checkout/components/payment"
+import Review from "@modules/checkout/components/review"
+import Shipping from "@modules/checkout/components/shipping"
 import { cookies } from "next/headers"
 import { CartWithCheckoutStep } from "types/global"
-import { getCheckoutStep } from "@lib/util/get-checkout-step"
 
 export default async function CheckoutForm() {
   const cartId = cookies().get("_medusa_cart_id")?.value
@@ -30,13 +30,13 @@ export default async function CheckoutForm() {
   cart.checkout_step = cart && getCheckoutStep(cart)
 
   // get available shipping methods
-  const availableShippingMethods = await listShippingMethods(
-    cart.region_id
-  ).then((methods) => methods?.filter((m) => !m.is_return))
+  // const availableShippingMethods = await listCartShippingMethods(cart.id).then(
+  //   (methods) => methods?.filter((m) => !m.is_return)
+  // )
 
-  if (!availableShippingMethods) {
-    return null
-  }
+  // if (!availableShippingMethods) {
+  //   return null
+  // }
 
   // get customer if logged in
   const customer = await getCustomer()
@@ -49,10 +49,10 @@ export default async function CheckoutForm() {
         </div>
 
         <div>
-          <Shipping
-            cart={cart}
-            availableShippingMethods={availableShippingMethods}
-          />
+          {/*<Shipping*/}
+          {/*  cart={cart}*/}
+          {/*  availableShippingMethods={availableShippingMethods}*/}
+          {/*/>*/}
         </div>
 
         <div>
